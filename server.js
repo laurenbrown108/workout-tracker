@@ -11,7 +11,7 @@ app.use(logger("dev"));
 
 const PORT = process.env.PORT || 8080;
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/dbExample", { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -49,10 +49,9 @@ app.get("/api/workouts/range", (req, res) => {
         })
 })
 
-app.post("/api/workouts", ({ body }, res) => {
-    // const newWorkout = new Workout(body);
-    // console.log(newWorkout);
-    Workout.create(body)
+app.post("/api/workouts", (req, res) => {
+
+    Workout.create(req.body)
         .then(data => {
             console.log("~~~")
             res.json(data);
@@ -62,8 +61,9 @@ app.post("/api/workouts", ({ body }, res) => {
         })
 })
 
+
 app.put("/api/workouts/:id", (req, res) => {
-    Workout.findByIdAndUpdate(req.params.id, { $push: { exercises: [req.body] }}, { new: true })
+    Workout.findByIdAndUpdate(req.params.id, { $push: { exercises: req.body }}, { new: true })
         .then(data => {
             res.json(data);
         })
@@ -71,8 +71,6 @@ app.put("/api/workouts/:id", (req, res) => {
             res.json(err)
         });
 })
-
-
 
 
 // HTML Routes
