@@ -49,18 +49,30 @@ app.post("/api/workouts", ({ body }, res) => {
         })
 })
 
-app.put("/api/workouts/:id", ({body}, res) => {
-    db.Workout.create(body)
-    .then(({_id}) => db.Workout.findOneAndUpdate({}, { $push: {exercises: _id}},{ new: true}))
+
+// app.put("/api/workouts/:id", ({body}, res) => {
+//     db.Workout.create(body)
+//     .then(({_id}) => db.Workout.findOneAndUpdate({}, { $push: {exercises: _id}},{ new: true}))
+//     .then(data => {
+//         console.log("***")
+//         console.log(data);
+//         res.json(data);
+//     })
+//     .catch(err => {
+//         res.json(err);
+//     })
+// })
+
+app.put("/api/workouts/:id", ({_id}, res) => {
+    db.Workout.findByIdAndUpdate(_id, { $push:{ exercises: [req.body] }}, {new: true})
     .then(data => {
-        console.log("***")
-        console.log(data);
-        res.json(data);
+      res.json(data);
     })
     .catch(err => {
-        res.json(err);
-    })
+      res.json(err)
+    });
 })
+
 
 app.get("/api/workouts/range", (req, res) => {
     db.Workout.find({}).sort({ day: -1}).limit(7)
