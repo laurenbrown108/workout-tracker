@@ -20,16 +20,13 @@ app.use(express.static("public"));
 
 //API Routes
 
-// POST /api/workouts
-// PUT /api/workouts/:id
-// GET /api/workouts/range
 app.get("/api/workouts", (req, res) => {
     Workout.find({}).sort({ day: -1 }).limit(1)
         .then(data => {
             console.log(data);
-            data.forEach(workoutData => {
+            data.map(workoutData => {
                 let time = 0;
-                workoutData.exercises.forEach(all => {
+                workoutData.exercises.map(all => {
                     time += all.duration
                 })
                 workoutData.totalDuration = time;
