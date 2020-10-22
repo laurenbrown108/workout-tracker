@@ -24,9 +24,8 @@ app.use(express.static("public"));
 // PUT /api/workouts/:id
 // GET /api/workouts/range
 app.get("/api/workouts", (req, res) => {
-    db.Workout.find({}).sort({ day: -1 }).limit(1)
+    Workout.find({}).sort({ day: -1 }).limit(1)
         .then(data => {
-            console.log("%%%%")
             console.log(data);
             data.forEach(workoutData => {
                 let time = 0;
@@ -43,7 +42,7 @@ app.get("/api/workouts", (req, res) => {
 })
 
 app.get("/api/workouts/range", (req, res) => {
-    db.Workout.find({}).limit(7)
+    Workout.find({}).limit(7)
         .then(data => {
             console.log("!!!")
             res.json(data);
@@ -54,9 +53,9 @@ app.get("/api/workouts/range", (req, res) => {
 })
 
 app.post("/api/workouts", ({ body }, res) => {
-    const newWorkout = new Workout(body);
-    console.log(newWorkout);
-    db.Workout.create(newWorkout)
+    // const newWorkout = new Workout(body);
+    // console.log(newWorkout);
+    Workout.create(body)
         .then(data => {
             console.log("~~~")
             res.json(data);
@@ -67,7 +66,7 @@ app.post("/api/workouts", ({ body }, res) => {
 })
 
 app.put("/api/workouts/:id", (req, res) => {
-    db.Workout.findByIdAndUpdate(req.params.id, { $push: { exercises: [req.body] } }, { new: true })
+    Workout.findByIdAndUpdate(req.params.id, { $push: { exercises: [req.body] }}, { new: true })
         .then(data => {
             res.json(data);
         })
