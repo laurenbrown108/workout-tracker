@@ -26,5 +26,3 @@ Run node server.js to test locally.
 ## Questions 
 
 [Email](mailto:laurenbrown108@gmail.com) me with any questions & connect with me on [Github](https://github.com/laurenbrown108).
-
-![workoutgif](https://github.com/laurenbrown108/workout-tracker/blob/main/public/fitnesstracker.gif?raw=true)
